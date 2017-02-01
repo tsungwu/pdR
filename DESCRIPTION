@@ -1,8 +1,8 @@
 Package: pdR
 Type: Package
 Title: Threshold Model and Unit Root Tests in Panel Data
-Version: 1.4
-Date: 2016-07-07
+Version: 1.5
+Date: 2017-02-01
 Author: Ho Tsung-wu
 Maintainer: Ho Tsung-wu <tsungwu@cc.shu.edu.tw>
 Description: Threshold model, panel version of Hylleberg et al.(1990) seasonal unit root tests, and panel unit root test of Chang(2002).
