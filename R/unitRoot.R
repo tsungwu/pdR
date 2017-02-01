@@ -82,7 +82,7 @@ lagSelect <-function(y,maxp,ic){
 
 tbar <- function(x){
   T=length(x)
-  pmean=NULL
+    pmean=NULL
   for (i in 1:T){
     pmean=rbind(pmean,mean(x[1:i]))
   }
