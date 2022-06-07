@@ -140,18 +140,20 @@ vgraph=1
       xxi <- solve(t(xx)%*%xx)
       beta <- xxi%*%(t(xx)%*%yt)
       e <- yt - xx%*%beta
-      xxe <- xx*(e%*%matrix((1),nrow=1,ncol=ncol(xx)))
+      
+	  xxe <- xx*(e%*%matrix((1),nrow=1,ncol=ncol(xx)))
       xxe <- t(xxe)%*%xxe
       sehet <- as.matrix(sqrt(diag(xxi%*%xxe%*%xxi)))
       sehomo <- as.matrix(sqrt(diag(xxi*as.vector((t(e)%*%e))/(ty-n-ncol(xx)))))
-      beta <- cbind(beta,sehomo,sehet)
+     
+	 beta <- cbind(beta,sehomo,sehet)
       cat ("Thresholds", "\n")
       cat (t(rrr), "\n")
       cat ("\n")
       cat ("Regime-independent Coefficients, standard errors, het standard errors,and t-stat", "\n")
       beta=as.matrix(cbind(beta,c(beta[,1]/beta[,3])))
 
-      indep_beta=round(cbind(beta[1:k,]),4)
+      indep_beta=matrix(round(cbind(beta[1:k,]),4),,4)
       colnames(indep_beta)=c("Coeff", "std", "White","tstat")
       cat(" Coeff",  "      std",  "        White","      tstat", "\n")
       betax <- format(beta, digits = 4, scientific = FALSE)
@@ -239,7 +241,7 @@ ty=n*tt
 #ty <- n*(t-max_lag-1)
 
 y  <- dep
-cf=ind1
+cf=ind1 # regime-dep covariates
 ct=NULL
 for (j in 1:ncol(cf)) { ct=cbind(ct,tr(cf[,j],tt,n)) }
 
@@ -248,10 +250,13 @@ d1 <- d   # set to threshold variable
 yt <- tr(y,tt,n)
 #q1 <- ind2
 #x <- cbind(q1,(q1^2),(q1^3),d1,(q1*d1))
-x<-ind2
+x<-ind2 # regime-indep covariates
 k <- ncol(x)
-xt <- matrix(c(0),nrow=nrow(yt),ncol=k)
+if (k==1) {xt=tr(x,tt,n)} else {
+xt <- matrix(0,nrow=nrow(yt),ncol=k)
 for (j in 1:k) { xt[,j]=tr(x[,j],tt,n) }
+}
+
 thresh <- d1
 dd <- unique(thresh)
 dd <- as.matrix(sort(dd))
@@ -315,3 +320,5 @@ Output=list(output1,output2,output3)
 return(Output)
 
 }
+
+
